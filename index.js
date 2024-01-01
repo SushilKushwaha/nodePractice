@@ -3,20 +3,24 @@ const app = express()
 const port = 5000
 
 const users =[
-    {name:'ram', address:'ktm'},
-    {name:'kaylin', address:'gorkha'},
-    {name:'bishwo', address:'gorkha'},
-    {name:'gopal', address:'ktm'}
-  ]
+    {id:323,name:'ram', address:'ktm'},
+    {id:511,name:'kaylin', address:'gorkha'},
+    {id:56,name:'bishwo', address:'gorkha'},
+    {id:456,name:'gopal', address:'ktm'}
+]
 
-app.get('/users:id', (req, res) => {
-   const filteredUser =  users.filter((item,id)=>{
-      if(item.name[0] ===req.query.startswith &&  item.name[item.name.length-1] ===req.query.endswith){
-        return item
-      }  
-    })
-    res.send(filteredUser)
+app.get('/users/:id', (req, res, id) => {
+  const userId = parseInt(req.params.id); 
+
+  const user = users.find((item) => item.id === userId);
+
+  if (user) {
+      res.send(user);
+  } else {
+      res.status(404).send('User not found');
+  }
 })
+
 
 
 app.listen(port, () => {
